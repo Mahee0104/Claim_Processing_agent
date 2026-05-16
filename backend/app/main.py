@@ -4,14 +4,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routes import (
     auth_routes,
     claim_routes,
-    chat_routes
+    chat_routes,
+    document_routes,
+    vector_routes
 )
-
+from app.routes import ocr_routes
 from app.config.database import (
     Base,
     engine
 )
-
+from app.models.document_model import Document
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -20,17 +22,24 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "*"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 app.include_router(auth_routes.router)
 
 app.include_router(claim_routes.router)
 
 app.include_router(chat_routes.router)
+
+app.include_router(document_routes.router)
+
+app.include_router(ocr_routes.router)
+
+app.include_router(vector_routes.router)
 
 @app.get("/")
 def root():

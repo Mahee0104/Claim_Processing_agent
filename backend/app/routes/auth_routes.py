@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-
+from app.services.mongo_service import store_user_mongo
 from app.schemas.user_schema import (
     UserCreate,
     UserLogin
@@ -31,6 +31,12 @@ def signup(
 ):
 
     new_user = create_user(db, user)
+
+    store_user_mongo({
+        "sql_user_id": new_user.id,
+        "name": new_user.name,
+        "email": new_user.email
+    })
 
     return {
         "message": "User created successfully",

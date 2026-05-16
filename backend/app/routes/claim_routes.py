@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi import Depends
-
+from app.services.mongo_service import store_claim_mongo
 from sqlalchemy.orm import Session
 
 from app.schemas.claim_schema import (
@@ -39,6 +39,14 @@ def add_claim(
 
     new_claim = create_claim(db, claim)
 
+    store_claim_mongo({
+        "sql_claim_id": new_claim.id,
+        "insurance_type": new_claim.insurance_type,
+        "description": new_claim.description,
+        "status": new_claim.status,
+        "user_email": current_user["sub"]
+    })
+
     return {
         "message": "Claim created successfully",
         "claim": {
@@ -48,7 +56,6 @@ def add_claim(
             "status": new_claim.status
         }
     }
-
 
 @router.get("/")
 def fetch_claims(

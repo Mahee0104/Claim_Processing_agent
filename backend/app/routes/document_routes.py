@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from app.config.database import SessionLocal
 from app.models.document_model import Document
-
+from app.config.mongodb import mongo_db
 router = APIRouter(
     prefix="/documents",
     tags=["Documents"]

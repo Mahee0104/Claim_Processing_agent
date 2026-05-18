@@ -6,7 +6,8 @@ from app.routes import (
     claim_routes,
     chat_routes,
     document_routes,
-    vector_routes
+    vector_routes,
+    llm_routes
 )
 from app.routes import ocr_routes
 from app.config.database import (
@@ -40,6 +41,8 @@ app.include_router(document_routes.router)
 app.include_router(ocr_routes.router)
 
 app.include_router(vector_routes.router)
+
+app.include_router(llm_routes.router)
 
 @app.get("/")
 def root():

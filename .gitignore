@@ -1,6 +1,19 @@
-backend/.env
+# Python
+venv/
 __pycache__/
 *.pyc
-*.db
+
+# Uploads
+backend/uploads/
+
+# Vector DB
+backend/vector.index
+backend/vector_meta.pkl
+
+# Environment
+.env
+
+# Node
 node_modules/
 dist/
+backend/claims.db
